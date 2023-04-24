@@ -1,4 +1,5 @@
 ﻿using Communications;
+using Microsoft.Extensions.Logging.Abstractions;
 using System.Diagnostics;
 
 namespace StarterCode
@@ -18,12 +19,14 @@ namespace StarterCode
         /// </summary>
         static private int counter = 1;
 
+        Networking server = new(NullLogger.Instance, OnClientConnect, OnDisconnect, onMessage, '\n');
+        server.WaitForClients(1101, true);
+
         /// <summary>
         /// Basic connect handler - i.e., a browser has connected!
         /// Print an information message
         /// </summary>
-        /// <param name="channel"> the Networking connection</param>
-
+        /// <param name="channel"> the Networking connection</param>       
         internal static void OnClientConnect(Networking channel)
         {
             throw new NotImplementedException("Print something about a connection happening");
