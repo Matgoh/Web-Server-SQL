@@ -1,4 +1,4 @@
-﻿namespace CS3500;
+﻿namespace WebServer;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -53,26 +53,56 @@ public class Lab_Starter_Code
         }.ConnectionString;
     }
 
+    public static string GetGames()
+    {
+        Console.WriteLine("getting Connection...");
 
+        try
+        {
+            //create instance of database connection
+            using SqlConnection con = new(connectionString);
+
+            // Open the SqlConnection.
+            con.Open();
+           
+            // This code uses an SqlCommand based on the SqlConnection.
+            using SqlCommand command = new SqlCommand("SELECT * FROM Games", con);
+            using SqlDataReader reader = command.ExecuteReader();
+
+            string result = "";
+
+            while (reader.Read())
+            {
+                result += $@" {reader.GetInt32(0)},
+                              {reader.GetString(1)}, 
+                              {reader.GetDateTime(2)}";                        
+            }
+            return result;
+        }
+        catch (SqlException exception)
+        {
+            return "error :(";
+        }
+    }
     /// <summary>
     ///  Test several connections and print the output to the console
     /// </summary>
     /// <param name="args"></param>
-    public static void Main( string[] args )
-    {
-        Console.WriteLine( connectionString );
-        Console.WriteLine( "\n---------- Read All Patrons ---------------" );
-        AllPatrons();
+    //public static void Main(string[] args)
+    //{
+    //    Console.WriteLine(connectionString);
+    //    Console.WriteLine("\n---------- Read All Patrons ---------------");
+    //    AllPatrons();
 
-        Console.WriteLine( "\n---------- Add Patrons ---------------" );
-        AddPatrons();
+    //    Console.WriteLine("\n---------- Add Patrons ---------------");
+    //    AddPatrons();
 
-        Console.WriteLine( "\n---------- Read All Phone Numbers ---------------" );
-        AllPhones();
+    //    Console.WriteLine("\n---------- Read All Phone Numbers ---------------");
+    //    AllPhones();
 
-        Console.WriteLine( "\n---------- JOIN Patrons and Phone Numbers ---------------" );
-        PatronsPhones();
-    }
+    //    Console.WriteLine("\n---------- JOIN Patrons and Phone Numbers ---------------");
+    //    PatronsPhones();
+    //}
 
 
     /// <summary>

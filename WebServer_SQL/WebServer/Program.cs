@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Diagnostics;
 
-namespace StarterCode
+namespace WebServer
 {
     /// <summary>
     /// Author:   H. James de St. Germain
@@ -11,7 +11,7 @@ namespace StarterCode
     /// 
     /// Code for a simple web server
     /// </summary>
-    class WebServer
+    class Program
     {
         /// <summary>
         /// keep track of how many requests have come in.  Just used
@@ -21,7 +21,7 @@ namespace StarterCode
 
         private Networking server;
 
-        public WebServer()
+        public Program()
         {
             server = new(NullLogger.Instance, OnClientConnect, OnDisconnect, onMessage, '\n');
             server.WaitForClients(1101, true);
@@ -135,10 +135,15 @@ namespace StarterCode
         /// <param name="network_message_state"> provided by the Networking code, contains socket and message</param>
         internal static void onMessage(Networking channel, string message)
         {
+            var game_list = Lab_Starter_Code.GetGames();
+
             string body = $@"
             <html>
             <h1> Hi Matt </h1>
             <p> I like to code. </p>
+            <hr/>
+            <h2> GameList </h2>
+            {game_list}
             <html>";
 
             string header = $@"
