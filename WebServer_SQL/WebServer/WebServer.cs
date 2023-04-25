@@ -135,7 +135,25 @@ namespace StarterCode
         /// <param name="network_message_state"> provided by the Networking code, contains socket and message</param>
         internal static void onMessage(Networking channel, string message)
         {
-            throw new NotImplementedException("see comments");
+            string body = $@"
+            <html>
+            <h1> Hi Matt </h1>
+            <p> I like to code. </p>
+            <html>";
+
+            string header = $@"
+            HTTP/1.1 200 OK
+            Date: Mon, 27 Jul 2009 12:28:53 GMT
+            Server: Matthew's Server
+            Last-Modified: Wed, 22 Jul 2009 19:15:56 GMT
+            Content-Length: {body.Length}
+            Content-Type: text/html
+            Connection: Closed";
+
+            channel.Send(header);
+            channel.Send("");
+            channel.Send(body);
+            Console.WriteLine(message);
         }
 
         /// <summary>
