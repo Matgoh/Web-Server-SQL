@@ -38,7 +38,7 @@ public class Lab_Starter_Code
 
         var builder = new ConfigurationBuilder();
 
-        builder.AddUserSecrets<Lab_Starter_Code>();
+        //builder.AddUserSecrets<Lab_Starter_Code>();
         IConfigurationRoot Configuration = builder.Build();
         var SelectedSecrets = Configuration.GetSection("Lab14Secrets");
 
