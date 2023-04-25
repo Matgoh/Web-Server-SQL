@@ -18,6 +18,9 @@ namespace StarterCode
         /// </summary>
         static private int counter = 1;
 
+        Networking server = new(NullLogger.Instance, OnClientConnect, OnDisconnect, onMessage, '\n');
+        server.WaitForClients(1101, true);
+
         /// <summary>
         /// Basic connect handler - i.e., a browser has connected!
         /// Print an information message
