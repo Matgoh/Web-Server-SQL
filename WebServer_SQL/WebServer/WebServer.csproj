@@ -8,9 +8,4 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Communications">
-      <HintPath>..\..\..\assignment8agario-codingbaddiesa8\Agario_Project\libs\Communications.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
