@@ -1,5 +1,6 @@
 ﻿using Communications;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Diagnostics;
 
@@ -20,6 +21,8 @@ namespace WebServer
         /// for display purposes.
         /// </summary>
         static private int counter = 1;
+
+        private static int bodyLength = 0;
 
         private Networking server;
 
@@ -53,7 +56,16 @@ namespace WebServer
         /// <returns>returns a string with the response header</returns>
         private static string BuildHTTPResponseHeader(int length, string type = "text/html")
         {
-            throw new NotImplementedException("Modify this to return an actual HTTP protocol message");
+            string header = $@"
+            HTTP/1.1 200 OK
+            Date: Mon, 27 Jul 2009 12:28:53 GMT
+            Server: Matthew's Server
+            Last-Modified: Wed, 22 Jul 2009 19:15:56 GMT
+            Content-Length: {bodyLength}
+            Content-Type: text/html
+            Connection: Closed";
+
+            return header;
         }
 
         /// <summary>
@@ -137,7 +149,7 @@ namespace WebServer
         /// <param name="network_message_state"> provided by the Networking code, contains socket and message</param>
         internal static void onMessage(Networking channel, string message)
         {
-            var game_list = Lab_Starter_Code.GetGames();
+            //var game_list = Lab_Starter_Code.GetGames();
 
             string body = $@"
             <html>
@@ -145,8 +157,10 @@ namespace WebServer
             <p> I like to code. </p>
             <hr/>
             <h2> GameList </h2>
-            {game_list}
+          
             <html>";
+
+            bodyLength = body.Length;
 
             string header = $@"
             HTTP/1.1 200 OK
@@ -189,7 +203,28 @@ namespace WebServer
             Debug.WriteLine($"Goodbye {channel.RemoteAddressPort}");
         }
 
-        private static SqlConnection 
+        private static void SqlConnection()
+        {
+            var builder = new ConfigurationBuilder();
+
+            builder.AddUserSecrets<SqlConnection>();
+            IConfigurationRoot Configuration = builder.Build();
+            var SelectedSecrets = Configuration.GetSection("WebServerSecrets");
+
+            string connectionString = new SqlConnectionStringBuilder()
+            {
+                DataSource = SelectedSecrets["server_name"],
+                InitialCatalog = SelectedSecrets["database_name"],
+                UserID = SelectedSecrets["userID"],
+                Password = SelectedSecrets["LabDBPassword"],
+                ConnectTimeout = 15, // if the server doesn't connect in X seconds, give up
+                Encrypt = false
+            }.ConnectionString;
+
+
+
+        }
+       
 
     }
 }
