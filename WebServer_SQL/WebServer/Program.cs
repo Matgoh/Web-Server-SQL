@@ -1,4 +1,5 @@
 ﻿using Communications;
+using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Diagnostics;
 
@@ -187,6 +188,8 @@ namespace WebServer
         {
             Debug.WriteLine($"Goodbye {channel.RemoteAddressPort}");
         }
+
+        private static SqlConnection 
 
     }
 }
