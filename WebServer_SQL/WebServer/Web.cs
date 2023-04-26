@@ -144,24 +144,19 @@ namespace WebServer
             //var game_list = Lab_Starter_Code.GetGames();
 
             string body = $@"
-            <html>
-            <h1> Hi Matt </h1>
-            <p> I like to code. </p>
-            <hr/>
-            <h2> GameList </h2>
-          
-            <html>";
-
-            bodyLength = body.Length;
+<html>
+<h1> Hi Matt </h1>
+<p> I like to code. </p>              
+<html>";
 
             string header = $@"
-            HTTP/1.1 200 OK
-            Date: Mon, 27 Jul 2009 12:28:53 GMT
-            Server: Matthew's Server
-            Last-Modified: Wed, 22 Jul 2009 19:15:56 GMT
-            Content-Length: {body.Length}
-            Content-Type: text/html
-            Connection: Closed";
+HTTP/1.1 200 OK
+Date: Mon, 27 Jul 2009 12:28:53 GMT
+Server: Matthew's Server
+Last-Modified: Wed, 22 Jul 2009 19:15:56 GMT
+Content-Length: {body.Length}
+Content-Type: text/html
+Connection: Closed";
 
             channel.Send(header);
             channel.Send("");
