@@ -3,6 +3,9 @@ using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 using System.Diagnostics;
+using System.Drawing;
+using System.Net;
+using System.Text.Encodings.Web;
 
 namespace WebServer
 {
@@ -48,7 +51,7 @@ namespace WebServer
         {
             string header = $@"
 HTTP/1.1 200 OK
-Date: Mon, 27 Jul 2009 12:28:53 GMT
+Date: {DateTime.Now}
 Server: Matthew's Server
 Last-Modified: Wed, 22 Jul 2009 19:15:56 GMT
 Content-Length: {length}
@@ -69,10 +72,19 @@ Connection: Closed";
             // FIXME: this should be a complete web page.
 
             return $@"
+<html>
+<Style>
+body {{background - color: powderblue;}}
+h1   {{color: red;}}
+br    {{color: green;}}
+<Style>
 <h1>Agari.o Website!{counter}</h1>
-<a href='localhost:11000'>Reload</a> 
-<br/>how are you...";
+<a href='http://localhost:11001/Reload'>Reload</a> 
+<link rel=stylesheet href=styles.css>
+<br/>how are you...  
+<html>";
         }
+
 
         /// <summary>
         /// Create a response message string to send back to the connecting
@@ -140,10 +152,28 @@ Connection: Closed";
         public static void onMessage(Networking channel, string message)
         {
             //var game_list = Lab_Starter_Code.GetGames();
-          
+
             string body = BuildHTTPBody();
             int bodyLength = body.Length;
             string header = BuildHTTPResponseHeader(bodyLength);
+
+//            if (message.StartsWith("GET/syles.css"))
+//            {
+//                string body = $@"
+//<h1>Agari.o Website!{counter}</h1>
+//<a href='http://localhost:11001/Reload'>Reload</a> 
+//<link rel=stylesheet href=styles.css>
+//<br/>how are you...";
+//            }
+
+            // If reload message is sent, just send header and body again
+            if (message.StartsWith("GET/Reload"))
+            {
+                channel.Send(header);
+                channel.Send("");
+                channel.Send(body);
+                Console.WriteLine(message);
+            }
 
             channel.Send(header);
             channel.Send("");
@@ -155,8 +185,9 @@ Connection: Closed";
         /// Handle some CSS to make our pages beautiful
         /// </summary>
         /// <returns>HTTP Response Header with CSS file contents added</returns>
-        private static string SendCSSResponse()
+        private static string SendCSSResponse(int length)
         {
+            //return BuildHTTPResponseHeader();
             throw new NotSupportedException("read the css file from the solution folder, build an http response, and return this string");
             //Note: for starters, simply return a static hand written css string from right here (don't do file reading)
         }
@@ -169,7 +200,14 @@ Connection: Closed";
         /// <returns> the HTTP response header followed by some informative information</returns>
         private static string CreateDBTablesPage()
         {
-            throw new NotImplementedException("create the database tables by 'talking' with the DB server and then return an informative web page");
+            return $@"CREATE TABLE Persons(
+    PersonID int,
+    LastName varchar(255),
+    FirstName varchar(255),
+    Address varchar(255),
+    City varchar(255)
+)";
+          //  throw new NotImplementedException("create the database tables by 'talking' with the DB server and then return an informative web page");
         }
 
         internal static void OnDisconnect(Networking channel)
