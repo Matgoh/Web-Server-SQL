@@ -67,8 +67,9 @@ Connection: Closed";
         private static string BuildHTTPBody()
         {
             // FIXME: this should be a complete web page.
+
             return $@"
-<h1>hello world{counter}</h1>
+<h1>Agari.o Website!{counter}</h1>
 <a href='localhost:11000'>Reload</a> 
 <br/>how are you...";
         }
@@ -92,7 +93,6 @@ Connection: Closed";
 
             return header + message;
         }
-
 
 
         /// <summary>
@@ -140,7 +140,7 @@ Connection: Closed";
         public static void onMessage(Networking channel, string message)
         {
             //var game_list = Lab_Starter_Code.GetGames();
-
+          
             string body = BuildHTTPBody();
             int bodyLength = body.Length;
             string header = BuildHTTPResponseHeader(bodyLength);
