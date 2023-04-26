@@ -4,6 +4,7 @@ using System.Diagnostics;
 
 namespace WebServer
 {
+
     /// <summary>
     /// Author:   H. James de St. Germain
     /// Date:     Spring 2020
@@ -34,7 +35,7 @@ namespace WebServer
         /// <param name="channel"> the Networking connection</param>       
         internal static void OnClientConnect(Networking channel)
         {
-            throw new NotImplementedException("Print something about a connection happening");
+            Console.WriteLine("Connected to browser");
         }
 
         /// <summary>
