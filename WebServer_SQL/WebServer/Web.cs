@@ -2,6 +2,7 @@ using Communications;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Drawing;
 using System.Net;
@@ -243,7 +244,7 @@ h2{{color: Olive;}}
                 database.GetPlayerScore(name);
 
                 var playerData = database.GetPlayerData(name);
-                
+
                 string bo = $@"
 <html>
 <head>
@@ -260,6 +261,25 @@ a {{color: Olive;}}
 {playerData}
 <html>";
             }
+                if (message.Contains("fancy"))
+                {
+                string fancy = database.GetFancy();
+                    string bo = $@"
+<html>
+<head>
+<style>
+{{background - color: blue;}}
+h1 {{color: blue;}}
+p {{color: LightSeaGreen;}}
+a {{color: red;}}
+</style>
+</head>
+<hr/>
+<h1>Fancy List:</h1>
+<h2> Click on a player to see their stats: </h2>
+{fancy}
+<html>";
+                }
             else
             {
                 string body = BuildHTTPBody();
@@ -279,7 +299,7 @@ a {{color: Olive;}}
         ///    (2) Report to the web browser on the success
         /// </summary>
         /// <returns> the HTTP response header followed by some informative information</returns>
-        private static string CreateDBTablesPage()
+        private static string CreateDBTablesPage(string name)
         {
             throw new NotImplementedException();
         }

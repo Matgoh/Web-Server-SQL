@@ -214,4 +214,46 @@ public class Database
             return "";
         }
     }
+
+    /// <summary>
+    /// Does something fancy
+    /// </summary>
+    /// <returns></returns>
+    public string GetFancy()
+    {
+        Console.WriteLine("Getting Connection ...");
+
+        try
+        {
+            //create instance of database connection
+            using SqlConnection con = new(connectionString);
+
+            //
+            // Open the SqlConnection.
+            //
+            con.Open();
+
+
+            // Get the list of players
+            using SqlCommand command = new SqlCommand("SELECT PlayerList.Name FROM PlayerList", con);
+            using SqlDataReader reader = command.ExecuteReader();
+
+            string result = "<ol>";
+
+            while (reader.Read())
+            {
+                result += $@"<li>
+                             {reader.GetString(0)}, 
+                             </li>";
+            }
+
+            result += "</ol>";
+            return result;
+        }
+        catch (SqlException exception)
+        {
+            Console.WriteLine($"Error in SQL connection: {exception.Message}");
+            return "";
+        }
+    }
 }
