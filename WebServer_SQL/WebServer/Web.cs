@@ -81,7 +81,7 @@ p {{color: LightSeaGreen;}}
 a {{color: Olive;}}
 </style>
 </head>
-<h1>Agari.o Website!{counter}</h1>
+<h1>Agar.io Website!{counter}</h1>
 <a href='http://localhost:11001/Reload'>Reload Page</a> 
 <br>
 <a href='http://localhost:11001/Highscores'>High Scores</a> 
