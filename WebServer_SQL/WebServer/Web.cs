@@ -1,4 +1,22 @@
-﻿using Communications;
+/// <summary>
+/// Author:    Matthew Goh
+/// Partner:   Alex Qi
+/// Date:      26-April-2023
+/// Course:    CS 3500, University of Utah, School of Computing
+/// Copyright: CS 3500, Matthew Goh, and Alex Qi - This work may not 
+///            be copied for use in Academic Coursework.
+///
+/// I, Matthew Goh and Alex Qi, certify that I wrote this code from scratch and
+/// did not copy it in part or whole from another source.  All 
+/// references used in the completion of the assignments are cited 
+/// in my README file.
+///
+/// File Contents
+///
+///    This class represents a web server that handles HTTP requests and responses.
+/// </summary>
+
+using Communications;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
