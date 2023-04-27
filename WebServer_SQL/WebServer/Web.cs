@@ -19,6 +19,15 @@ namespace WebServer
     /// </summary>
     class Web
     {
+        static Database database;
+        static void Main(string[] args)
+        {
+            database = new Database();
+            Console.WriteLine("Web Server Running");
+            Networking server = new(NullLogger.Instance, OnClientConnect, OnDisconnect, onMessage, '\n');
+            server.WaitForClients(11001, true);
+            Console.ReadLine();
+        }
         /// <summary>
         /// keep track of how many requests have come in.  Just used
         /// for display purposes.
@@ -158,13 +167,13 @@ a {{color: Olive;}}
             //var game_list = Lab_Starter_Code.GetGames();       
 
             // If reload message is sent, just send header and body again
-            if (message.StartsWith("GET/Reload"))
+            if (message.Contains("GET/Reload"))
             {
                // reload web page
             }
 
             // Get highscores page
-            if (message.StartsWith("GET/Highscores"))
+            if (message.Contains("Highscores"))
             {
                 
             }
@@ -211,30 +220,6 @@ a {{color: Olive;}}
         {
             Debug.WriteLine($"Goodbye {channel.RemoteAddressPort}");
         }
-
-        public static SqlConnection SqlConnection()
-        {
-            var builder = new ConfigurationBuilder();
-
-            builder.AddUserSecrets<SqlConnection>();
-            IConfigurationRoot Configuration = builder.Build();
-            var SelectedSecrets = Configuration.GetSection("WebServerSecrets");
-
-            string connectionString = new SqlConnectionStringBuilder()
-            {
-                DataSource = SelectedSecrets["server_name"],
-                InitialCatalog = SelectedSecrets["database_name"],
-                UserID = SelectedSecrets["userID"],
-                Password = SelectedSecrets["LabDBPassword"],
-                ConnectTimeout = 15, // if the server doesn't connect in X seconds, give up
-                Encrypt = false
-            }.ConnectionString;
-
-            SqlConnection connection = new SqlConnection(connectionString);
-            connection.Open();
-            return connection;
-        }
-       
-
+      
     }
 }
