@@ -75,13 +75,16 @@ Connection: Closed";
 <html>
 <head>
 <style>
-body {{background - color: slateblue;}}
+{{background - color: blue;}}
 h1 {{color: maroon;}}
-p {{color: red;}}
+p {{color: LightSeaGreen;}}
+a {{color: Olive;}}
 </style>
 </head>
 <h1>Agari.o Website!{counter}</h1>
-<a href='http://localhost:11001/Reload'>Reload</a> 
+<a href='http://localhost:11001/Reload'>Reload Page</a> 
+<br>
+<a href='http://localhost:11001/Highscores'>High Scores</a> 
 <p>how are you...</p>
 <html>";
         }
@@ -176,7 +179,6 @@ p {{color: red;}}
         /// <returns>HTTP Response Header with CSS file contents added</returns>
         private static string SendCSSResponse()
         {
-            //return BuildHTTPResponseHeader();
             throw new NotSupportedException("read the css file from the solution folder, build an http response, and return this string");
             //Note: for starters, simply return a static hand written css string from right here (don't do file reading)
         }
