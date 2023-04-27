@@ -260,10 +260,16 @@ a {{color: Olive;}}
 <h2> Click on a player to see their stats: </h2>
 {playerData}
 <html>";
+
+                string highScoreHeader = BuildHTTPResponseHeader(bo.Length);
+                channel.Send(highScoreHeader);
+                channel.Send("");
+                channel.Send(bo);
+                Console.WriteLine(message);
             }
-                if (message.Contains("fancy"))
+            if (message.Contains("fancy"))
                 {
-                string fancy = database.GetFancy();
+                var fancy = database.GetFancy();
                     string bo = $@"
 <html>
 <head>
@@ -279,7 +285,12 @@ a {{color: red;}}
 <h2> Click on a player to see their stats: </h2>
 {fancy}
 <html>";
-                }
+                string highScoreHeader = BuildHTTPResponseHeader(bo.Length);
+                channel.Send(highScoreHeader);
+                channel.Send("");
+                channel.Send(bo);
+                Console.WriteLine(message);
+            }
             else
             {
                 string body = BuildHTTPBody();
