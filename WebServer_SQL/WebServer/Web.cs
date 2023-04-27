@@ -106,9 +106,9 @@ a {{color: Olive;}}
 <a href='http://localhost:11001/Highscores'>High Scores</a> 
 <br>
 <a href='http://localhost:11001/PlayerList'>Player List</a> 
-<p>how are you...</p>
+<br>
 <a href='http://localhost:11001/Create'>Create New Table</a> 
-<p>how are you...</p>
+<p>INFO: This database has various links that should portray certain aspects of the agari.o game. If you would like to see specifc player stats, follow the url with the player name. </p>
 <html>";
         }
 
