@@ -267,7 +267,7 @@ a {{color: Olive;}}
                 channel.Send(bo);
                 Console.WriteLine(message);
             }
-            if (message.Contains("fancy"))
+            if (message.Contains("Fancy"))
                 {
                 var fancy = database.GetFancy();
                     string bo = $@"
