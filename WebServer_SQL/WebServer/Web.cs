@@ -163,6 +163,12 @@ a {{color: Olive;}}
                // reload web page
             }
 
+            // Get highscores page
+            if (message.StartsWith("GET/Highscores"))
+            {
+                
+            }
+
             string body = BuildHTTPBody();
             int bodyLength = body.Length;
             string header = BuildHTTPResponseHeader(bodyLength);
