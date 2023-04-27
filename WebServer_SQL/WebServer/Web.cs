@@ -225,9 +225,11 @@ h2{{color: Olive;}}
                 Console.WriteLine(message);
             }
 
-            if (message.Contains("Scores"))
+            if (message.Contains("scores"))
             {
-                var playerList = database.GetPlayers();
+                string toBeSearched = "scores";
+                string name = message.Substring(message.IndexOf(toBeSearched) + toBeSearched.Length);
+                database.GetPlayerScore(name);
                 
                 string bo = $@"
 <html>
