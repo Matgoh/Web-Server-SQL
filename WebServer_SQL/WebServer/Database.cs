@@ -191,7 +191,7 @@ public class Database
 
 
             // Get the list of players
-            using SqlCommand command = new SqlCommand($"SELECT HighScore.HighestMass, IN PlayerList WHERE PLayerList.Name = '{name}'", con);
+            using SqlCommand command = new SqlCommand($"SELECT HighScore.HighestMass, PlayerList.Name IN PlayerList WHERE PLayerList.Name = '{name}'", con);
             using SqlDataReader reader = command.ExecuteReader();
 
 
@@ -200,7 +200,8 @@ public class Database
             while (reader.Read())
             {
                 result += $@"<li>
-                             {reader.GetString(0)}, 
+                             {reader.GetString(0)}
+                             {reader.GetInt32(1)}, 
                              </li>";
             }
 

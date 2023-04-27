@@ -1,21 +1,3 @@
-/// <summary>
-/// Author:    Matthew Goh
-/// Partner:   Alex Qi
-/// Date:      26-April-2023
-/// Course:    CS 3500, University of Utah, School of Computing
-/// Copyright: CS 3500, Matthew Goh, and Alex Qi - This work may not 
-///            be copied for use in Academic Coursework.
-///
-/// I, Matthew Goh and Alex Qi, certify that I wrote this code from scratch and
-/// did not copy it in part or whole from another source.  All 
-/// references used in the completion of the assignments are cited 
-/// in my README file.
-///
-/// File Contents
-///
-///    This class represents a web server that handles HTTP requests and responses.
-/// </summary>
-
 using Communications;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -29,15 +11,30 @@ namespace WebServer
 {
 
     /// <summary>
-    /// Author:   H. James de St. Germain
-    /// Date:     Spring 2020
-    /// Updated:  Spring 2023
-    /// 
-    /// Code for a simple web server
+    /// Author:    Matthew Goh
+    /// Partner:   Alex Qi
+    /// Date:      26-April-2023
+    /// Course:    CS 3500, University of Utah, School of Computing
+    /// Copyright: CS 3500, Matthew Goh, and Alex Qi - This work may not 
+    ///            be copied for use in Academic Coursework.
+    ///
+    /// I, Matthew Goh and Alex Qi, certify that I wrote this code from scratch and
+    /// did not copy it in part or whole from another source.  All 
+    /// references used in the completion of the assignments are cited 
+    /// in my README file.
+    ///
+    /// File Contents
+    ///
+    ///    This class represents a web server that handles HTTP requests and responses.
     /// </summary>
     class Web
     {
         static Database database;
+
+        /// <summary>
+        /// Main method that creates a database and networking object to use and wait for clients message. 
+        /// </summary>
+        /// <param name="args"></param>
         static void Main(string[] args)
         {
             database = new Database();
@@ -46,11 +43,6 @@ namespace WebServer
             server.WaitForClients(11001, true);
             Console.ReadLine();
         }
-        /// <summary>
-        /// keep track of how many requests have come in.  Just used
-        /// for display purposes.
-        /// </summary>
-        static private int counter = 1;
 
         /// <summary>
         /// Basic connect handler - i.e., a browser has connected!
@@ -108,7 +100,7 @@ p {{color: LightSeaGreen;}}
 a {{color: Olive;}}
 </style>
 </head>
-<h1>Agar.io Website!{counter}</h1>
+<h1>Agar.io Website!</h1>
 <a href='http://localhost:11001/Reload'>Reload Page</a> 
 <br>
 <a href='http://localhost:11001/Highscores'>High Scores</a> 
@@ -243,11 +235,14 @@ h2{{color: Olive;}}
                 Console.WriteLine(message);
             }
 
+            /// This method will handle the names of specific people. 
             if (message.Contains("scores"))
             {
                 string toBeSearched = "scores";
                 string name = message.Substring(message.IndexOf(toBeSearched) + toBeSearched.Length);
                 database.GetPlayerScore(name);
+
+                var playerData = database.GetPlayerData(name);
                 
                 string bo = $@"
 <html>
@@ -262,7 +257,7 @@ a {{color: Olive;}}
 <hr/>
 <h1>Player List:</h1>
 <h2> Click on a player to see their stats: </h2>
-{playerList}
+{playerData}
 <html>";
             }
             else
