@@ -171,7 +171,7 @@ a {{color: Olive;}}
                // reload web page
             }
 
-            // Get highscores page
+            // Create body of highscores page
             if (message.Contains("Highscores"))
             {
                 var playerList = database.getPlayers();
