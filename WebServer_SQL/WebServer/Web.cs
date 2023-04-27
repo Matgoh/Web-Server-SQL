@@ -97,6 +97,8 @@ a {{color: Olive;}}
 <br>
 <a href='http://localhost:11001/PlayerList'>Player List</a> 
 <p>how are you...</p>
+<a href='http://localhost:11001/Create'>Create New Table</a> 
+<p>how are you...</p>
 <html>";
         }
 
@@ -167,7 +169,7 @@ a {{color: Olive;}}
         public static void onMessage(Networking channel, string message)
         {
             // If reload message is sent, just send header and body again
-            if (message.Contains("GET/Reload"))
+            if (message.Contains("Reload"))
             {
                // reload web page
             }
@@ -222,6 +224,27 @@ h2{{color: Olive;}}
                 channel.Send(bo);
                 Console.WriteLine(message);
             }
+
+            if (message.Contains("Scores"))
+            {
+                var playerList = database.GetPlayers();
+                
+                string bo = $@"
+<html>
+<head>
+<style>
+{{background - color: blue;}}
+h1 {{color: GoldenRod;}}
+p {{color: LightSeaGreen;}}
+a {{color: Olive;}}
+</style>
+</head>
+<hr/>
+<h1>Player List:</h1>
+<h2> Click on a player to see their stats: </h2>
+{playerList}
+<html>";
+            }
             else
             {
                 string body = BuildHTTPBody();
@@ -233,16 +256,6 @@ h2{{color: Olive;}}
                 channel.Send(body);
                 Console.WriteLine(message);
             }
-        }
-
-        /// <summary>
-        /// Handle some CSS to make our pages beautiful
-        /// </summary>
-        /// <returns>HTTP Response Header with CSS file contents added</returns>
-        private static string SendCSSResponse()
-        {
-            throw new NotSupportedException("read the css file from the solution folder, build an http response, and return this string");
-            //Note: for starters, simply return a static hand written css string from right here (don't do file reading)
         }
 
 
