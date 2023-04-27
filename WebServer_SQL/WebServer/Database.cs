@@ -52,7 +52,7 @@ public class Database
             Encrypt = false
         }.ConnectionString;
     }
-    public void getPlayers()
+    public string getPlayers()
     {
         Console.WriteLine("Getting Connection ...");
 
@@ -69,20 +69,26 @@ public class Database
             //
             // This code uses an SqlCommand based on the SqlConnection.
             //
-            using SqlCommand command = new SqlCommand("SELECT * FROM Player", con);
+            using SqlCommand command = new SqlCommand("SELECT HighScore.HighestMass, PlayerList.Name FROM HighScore\r\nINNER JOIN PlayerList ON HighScore.PlayerId=PlayerList.PlayerId\r\nORDER BY HighestMass DESC;", con);
             using SqlDataReader reader = command.ExecuteReader();
+
+            string result = "<ol>";
 
             while (reader.Read())
             {
-                Console.WriteLine("{0} {1}",
-                    reader.GetInt32(0), reader.GetString(1));
+                result += $@"<li>
+                             {reader.GetInt32(0)}
+                             {reader.GetString(1)}, 
+                             </li>";
             }
 
-            Console.WriteLine($"Successful SQL connection");
+            result += "</ol>";
+            return result;
         }
         catch (SqlException exception)
         {
             Console.WriteLine($"Error in SQL connection: {exception.Message}");
+            return "";
         }
     }
 }

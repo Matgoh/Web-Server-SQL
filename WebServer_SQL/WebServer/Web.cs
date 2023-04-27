@@ -23,6 +23,7 @@ namespace WebServer
         static void Main(string[] args)
         {
             database = new Database();
+            Console.WriteLine(database.getPlayers());
             Console.WriteLine("Web Server Running");
             Networking server = new(NullLogger.Instance, OnClientConnect, OnDisconnect, onMessage, '\n');
             server.WaitForClients(11001, true);
@@ -164,8 +165,6 @@ a {{color: Olive;}}
         /// <param name="network_message_state"> provided by the Networking code, contains socket and message</param>
         public static void onMessage(Networking channel, string message)
         {
-            //var game_list = Lab_Starter_Code.GetGames();       
-
             // If reload message is sent, just send header and body again
             if (message.Contains("GET/Reload"))
             {
@@ -175,17 +174,39 @@ a {{color: Olive;}}
             // Get highscores page
             if (message.Contains("Highscores"))
             {
-                
+                var playerList = database.getPlayers();
+                string bo = $@"
+<html>
+<head>
+<style>
+{{background - color: blue;}}
+h1 {{color: GoldenRod;}}
+p {{color: LightSeaGreen;}}
+a {{color: Olive;}}
+</style>
+</head>
+<hr/>
+<h1>High Scores:</h1>
+<h2> Player List </h2>
+{playerList}
+<html>";
+                string highScoreHeader = BuildHTTPResponseHeader(bo.Length);
+                channel.Send(highScoreHeader);
+                channel.Send("");
+                channel.Send(bo);
+                Console.WriteLine(message);
             }
+            else
+            {
+                string body = BuildHTTPBody();
+                int bodyLength = body.Length;
+                string header = BuildHTTPResponseHeader(bodyLength);
 
-            string body = BuildHTTPBody();
-            int bodyLength = body.Length;
-            string header = BuildHTTPResponseHeader(bodyLength);
-
-            channel.Send(header);
-            channel.Send("");
-            channel.Send(body);
-            Console.WriteLine(message);
+                channel.Send(header);
+                channel.Send("");
+                channel.Send(body);
+                Console.WriteLine(message);
+            }
         }
 
         /// <summary>
