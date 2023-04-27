@@ -1,19 +1,29 @@
-﻿namespace WebServer;
+/// <summary>
+/// Author:    Matthew Goh
+/// Partner:   Alex Qi
+/// Date:      26-April-2023
+/// Course:    CS 3500, University of Utah, School of Computing
+/// Copyright: CS 3500, Matthew Goh, and Alex Qi - This work may not 
+///            be copied for use in Academic Coursework.
+///
+/// I, Matthew Goh and Alex Qi, certify that I wrote this code from scratch and
+/// did not copy it in part or whole from another source.  All 
+/// references used in the completion of the assignments are cited 
+/// in my README file.
+///
+/// File Contents
+///
+///    Represents a connection to the database and provides methods to interact with it. 
+///    This class handles the establishment of a connection to the database server and provides functionality to retrieve data from the database. 
+///    It uses the Microsoft.Data.SqlClient and Microsoft.Extensions.Configuration namespaces for managing the database connection and configuration settings respectively.
+/// </summary>
+
+namespace WebServer;
 
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
 using System.Reflection.PortableExecutable;
 
-/// <summary>
-/// Author:  H. James de St. Germain, Matthew Goh, and Alex Qi
-/// Date:    Spring 2023
-/// 
-/// 
-/// This database class will establish a connection to the sql database with secure login as well as provide
-/// methods to obtain data from the database. 
-/// 
-/// 
-/// </summary>
 public class Database
 {
     /// <summary>
@@ -22,7 +32,9 @@ public class Database
     public readonly string connectionString;
 
     /// <summary>
-    /// Upon construction of this static class, build the connection string
+    /// Constructs a new instance of the Database class and initializes the database connection settings.
+    /// The connection string is built using the configuration values retrieved from the WebServerSecrets section.
+    /// The configuration values include the server name, database name, user ID, and password.
     /// </summary>
     public Database()
     {
