@@ -24,4 +24,12 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\gohfl\source\repos\assignment-nine---web-server---sql-codingbaddiesa9\WebServer_SQL\WebServer\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\gohfl\source\repos\assignment-nine---web-server---sql-codingbaddiesa9\WebServer_SQL\WebServer\.editorconfig" />
+  </ItemGroup>
+
 </Project>

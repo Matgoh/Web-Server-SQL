@@ -73,15 +73,16 @@ Connection: Closed";
 
             return $@"
 <html>
-<Style>
-body {{background - color: powderblue;}}
-h1   {{color: red;}}
-br    {{color: green;}}
-<Style>
+<head>
+<style>
+body {{background - color: slateblue;}}
+h1 {{color: maroon;}}
+p {{color: red;}}
+</style>
+</head>
 <h1>Agari.o Website!{counter}</h1>
 <a href='http://localhost:11001/Reload'>Reload</a> 
-<link rel=stylesheet href=styles.css>
-<br/>how are you...  
+<p>how are you...</p>
 <html>";
         }
 
@@ -151,29 +152,17 @@ br    {{color: green;}}
         /// <param name="network_message_state"> provided by the Networking code, contains socket and message</param>
         public static void onMessage(Networking channel, string message)
         {
-            //var game_list = Lab_Starter_Code.GetGames();
-
-            string body = BuildHTTPBody();
-            int bodyLength = body.Length;
-            string header = BuildHTTPResponseHeader(bodyLength);
-
-//            if (message.StartsWith("GET/syles.css"))
-//            {
-//                string body = $@"
-//<h1>Agari.o Website!{counter}</h1>
-//<a href='http://localhost:11001/Reload'>Reload</a> 
-//<link rel=stylesheet href=styles.css>
-//<br/>how are you...";
-//            }
+            //var game_list = Lab_Starter_Code.GetGames();       
 
             // If reload message is sent, just send header and body again
             if (message.StartsWith("GET/Reload"))
             {
-                channel.Send(header);
-                channel.Send("");
-                channel.Send(body);
-                Console.WriteLine(message);
+               // reload web page
             }
+
+            string body = BuildHTTPBody();
+            int bodyLength = body.Length;
+            string header = BuildHTTPResponseHeader(bodyLength);
 
             channel.Send(header);
             channel.Send("");
@@ -185,7 +174,7 @@ br    {{color: green;}}
         /// Handle some CSS to make our pages beautiful
         /// </summary>
         /// <returns>HTTP Response Header with CSS file contents added</returns>
-        private static string SendCSSResponse(int length)
+        private static string SendCSSResponse()
         {
             //return BuildHTTPResponseHeader();
             throw new NotSupportedException("read the css file from the solution folder, build an http response, and return this string");
