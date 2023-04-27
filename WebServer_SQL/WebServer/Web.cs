@@ -23,7 +23,6 @@ namespace WebServer
         static void Main(string[] args)
         {
             database = new Database();
-            Console.WriteLine(database.getPlayers());
             Console.WriteLine("Web Server Running");
             Networking server = new(NullLogger.Instance, OnClientConnect, OnDisconnect, onMessage, '\n');
             server.WaitForClients(11001, true);
@@ -95,6 +94,8 @@ a {{color: Olive;}}
 <a href='http://localhost:11001/Reload'>Reload Page</a> 
 <br>
 <a href='http://localhost:11001/Highscores'>High Scores</a> 
+<br>
+<a href='http://localhost:11001/PlayerList'>Player List</a> 
 <p>how are you...</p>
 <html>";
         }
@@ -171,10 +172,9 @@ a {{color: Olive;}}
                // reload web page
             }
 
-            // Create body of highscores page
-            if (message.Contains("Highscores"))
+            if (message.Contains("PlayerList"))
             {
-                var playerList = database.getPlayers();
+                var playerList = database.GetPlayers();
                 string bo = $@"
 <html>
 <head>
@@ -186,9 +186,35 @@ a {{color: Olive;}}
 </style>
 </head>
 <hr/>
-<h1>High Scores:</h1>
-<h2> Player List </h2>
+<h1>Player List:</h1>
+<h2> Click on a player to see their stats: </h2>
 {playerList}
+<html>";
+                string highScoreHeader = BuildHTTPResponseHeader(bo.Length);
+                channel.Send(highScoreHeader);
+                channel.Send("");
+                channel.Send(bo);
+                Console.WriteLine(message);
+            }
+
+            // Create body of highscores page
+            if (message.Contains("Highscores"))
+            {
+                var HighScores = database.GetHighScore();
+                string bo = $@"
+<html>
+<head>
+<style>
+{{background - color: blue;}}
+h1 {{color: GoldenRod;}}
+p {{color: LightSeaGreen;}}
+h2{{color: Olive;}}
+</style>
+</head>
+<hr/>
+<h1>High Scores Page</h1>
+<h2> Players With Highest Mass:</h2>
+{HighScores}
 <html>";
                 string highScoreHeader = BuildHTTPResponseHeader(bo.Length);
                 channel.Send(highScoreHeader);
@@ -227,14 +253,7 @@ a {{color: Olive;}}
         /// <returns> the HTTP response header followed by some informative information</returns>
         private static string CreateDBTablesPage()
         {
-            return $@"CREATE TABLE Persons(
-    PersonID int,
-    LastName varchar(255),
-    FirstName varchar(255),
-    Address varchar(255),
-    City varchar(255)
-)";
-          //  throw new NotImplementedException("create the database tables by 'talking' with the DB server and then return an informative web page");
+            throw new NotImplementedException();
         }
 
         internal static void OnDisconnect(Networking channel)

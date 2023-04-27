@@ -52,7 +52,7 @@ public class Database
             Encrypt = false
         }.ConnectionString;
     }
-    public string getPlayers()
+    public string GetHighScore()
     {
         Console.WriteLine("Getting Connection ...");
 
@@ -66,10 +66,11 @@ public class Database
             //
             con.Open();
 
-            //
-            // This code uses an SqlCommand based on the SqlConnection.
-            //
-            using SqlCommand command = new SqlCommand("SELECT HighScore.HighestMass, PlayerList.Name FROM HighScore\r\nINNER JOIN PlayerList ON HighScore.PlayerId=PlayerList.PlayerId\r\nORDER BY HighestMass DESC;", con);
+
+            // Here we join the playerlist and the highscore list to get the names and the associated mass ordered by highest mass. 
+            using SqlCommand command = new SqlCommand("SELECT HighScore.HighestMass, PlayerList.Name FROM HighScore" +
+                                                       "\r\nINNER JOIN PlayerList ON HighScore.PlayerId=PlayerList." +
+                                                       "PlayerId\r\nORDER BY HighestMass DESC;", con);
             using SqlDataReader reader = command.ExecuteReader();
 
             string result = "<ol>";
@@ -79,6 +80,44 @@ public class Database
                 result += $@"<li>
                              {reader.GetInt32(0)}
                              {reader.GetString(1)}, 
+                             </li>";
+            }
+
+            result += "</ol>";
+            return result;
+        }
+        catch (SqlException exception)
+        {
+            Console.WriteLine($"Error in SQL connection: {exception.Message}");
+            return "";
+        }
+    }
+
+    public string GetPlayers()
+    {
+        Console.WriteLine("Getting Connection ...");
+
+        try
+        {
+            //create instance of database connection
+            using SqlConnection con = new(connectionString);
+
+            //
+            // Open the SqlConnection.
+            //
+            con.Open();
+
+
+            // Get the list of players
+            using SqlCommand command = new SqlCommand("SELECT PlayerList.Name FROM PlayerList", con);
+            using SqlDataReader reader = command.ExecuteReader();
+
+            string result = "<ol>";
+
+            while (reader.Read())
+            {
+                result += $@"<li>
+                             {reader.GetString(0)}, 
                              </li>";
             }
 
