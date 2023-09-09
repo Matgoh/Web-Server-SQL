@@ -20,9 +20,9 @@ They are related by each player individually having a name, time alive, and scor
 
 # Extent of work:
 
-1. We were with decent time able to get the web server up and running that when connected to through a browser would return a basic welcome page. 
+1. We were with decent time able to get the web server up and running that when connected through a browser would return a basic welcome page. 
 2. On the webpage, there is a link that if one were to select it would take them to a chart of highscores.
-3. Our page allows requests to store highscores, though it may not actually store the correct information.
+3. Our page allows requests to store highscores queried from the SQL Microsoft data base.
 4. The page also allows the user to select the reload link to reload the page, and there is a counter that counts how many times one reloads the page. 
 5. We did not have enough time for our client code to contact the database that we created to store more information.
 
