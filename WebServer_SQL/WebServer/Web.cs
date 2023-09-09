@@ -109,7 +109,7 @@ a {{color: Olive;}}
 <a href='http://localhost:11001/PlayerList'>Player List</a> 
 <br>
 <a href='http://localhost:11001/Create'>Create New Table</a> 
-<p>INFO: This database has various links that should portray certain aspects of the agari.o game. If you would like to see specifc player stats, follow the url with the player name. </p>
+<p>INFO: This database has various links that should portray certain aspects of the agari.o game. If you would like to see specific player stats, follow the url with /scores/player name. </p>
 <html>";
         }
 
@@ -185,7 +185,7 @@ a {{color: Olive;}}
                // reload web page
             }
 
-            if (message.Contains("PlayerList"))
+            else if (message.Contains("PlayerList"))
             {
                 var playerList = database.GetPlayers();
                 string bo = $@"
@@ -237,13 +237,15 @@ h2{{color: Olive;}}
             }
 
             /// This method will handle the names of specific people. 
-            if (message.Contains("scores"))
+            else if (message.Contains("scores"))
             {
-                string toBeSearched = "scores";
-                string name = message.Substring(message.IndexOf(toBeSearched) + toBeSearched.Length);
+                int pFrom = message.IndexOf("scores/") + "scores/".Length;
+                int pTo = message.LastIndexOf(" ");
+                string name = message.Substring(pFrom, pTo - pFrom);
                 database.GetPlayerScore(name);
 
-                var playerData = database.GetPlayerData(name);
+                var playerHighScore = database.GetPlayerDataHighScore(name);
+                var timeAlive = database.GetPlayerDataTimeAlive(name);
 
                 string bo = $@"
 <html>
@@ -256,9 +258,11 @@ a {{color: Olive;}}
 </style>
 </head>
 <hr/>
-<h1>Player List:</h1>
-<h2> Click on a player to see their stats: </h2>
-{playerData}
+<h1>Stats for {name}:</h1>
+<h2> </h2>
+HighScore: {playerHighScore} 
+<br>
+Time Alive: {timeAlive}
 <html>";
 
                 string highScoreHeader = BuildHTTPResponseHeader(bo.Length);
@@ -267,7 +271,7 @@ a {{color: Olive;}}
                 channel.Send(bo);
                 Console.WriteLine(message);
             }
-            if (message.Contains("Fancy"))
+            else if (message.Contains("Fancy") || message.Contains("fancy"))
                 {
                 var fancy = database.GetFancy();
                     string bo = $@"
@@ -281,8 +285,9 @@ a {{color: red;}}
 </style>
 </head>
 <hr/>
-<h1>Fancy List:</h1>
-<h2> Click on a player to see their stats: </h2>
+<h1>Fancy!</h1>
+<h2> This is a fancy webpage </h2>
+<img src= CyberPunk.jpg alt= CyberSpace>
 {fancy}
 <html>";
                 string highScoreHeader = BuildHTTPResponseHeader(bo.Length);
@@ -302,17 +307,6 @@ a {{color: red;}}
                 channel.Send(body);
                 Console.WriteLine(message);
             }
-        }
-
-
-        /// <summary>
-        ///    (1) Instruct the DB to seed itself (build tables, add data)
-        ///    (2) Report to the web browser on the success
-        /// </summary>
-        /// <returns> the HTTP response header followed by some informative information</returns>
-        private static string CreateDBTablesPage(string name)
-        {
-            throw new NotImplementedException();
         }
 
         internal static void OnDisconnect(Networking channel)

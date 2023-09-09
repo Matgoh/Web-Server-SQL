@@ -172,10 +172,10 @@ public class Database
     }
 
     /// <summary>
-    /// Determine if specified player exists.
+    /// Gets the highscore of a specified player
     /// </summary>
     /// <param name="name"></param>
-    public string GetPlayerData(string name)
+    public string GetPlayerDataHighScore(string name)
     {
         Console.WriteLine("Getting Connection ...");
 
@@ -191,22 +191,58 @@ public class Database
 
 
             // Get the list of players
-            using SqlCommand command = new SqlCommand($"SELECT HighScore.HighestMass, PlayerList.Name IN PlayerList WHERE PLayerList.Name = '{name}'", con);
+            using SqlCommand command = new SqlCommand($"SELECT HighestMass FROM HighScore WHERE PlayerId = (SELECT PlayerId FROM PlayerList WHERE Name = '{name}')", con);
             using SqlDataReader reader = command.ExecuteReader();
 
-
-            string result = "<ol>";
-
+            string result = "";
             while (reader.Read())
             {
-                result += $@"<li>
-                             {reader.GetString(0)}
-                             {reader.GetInt32(1)}, 
-                             </li>";
+                result = reader.GetInt32(0).ToString();
             }
+            if (result == "")
+                return "No HighScore Data For This Person!";
+            else
+                return result;
+        }
+        catch (SqlException exception)
+        {
+            Console.WriteLine($"error: {exception.Message}");
+            return "";
+        }
+    }
 
-            result += "</ol>";
-            return result;
+    /// <summary>
+    /// Gets the time alive of a specified player
+    /// </summary>
+    /// <param name="name"></param>
+    public string GetPlayerDataTimeAlive(string name)
+    {
+        Console.WriteLine("Getting Connection ...");
+
+        try
+        {
+            //create instance of database connection
+            using SqlConnection con = new(connectionString);
+
+            //
+            // Open the SqlConnection.
+            //
+            con.Open();
+
+
+            // Get the list of players
+            using SqlCommand command = new SqlCommand($"SELECT DATEDIFF(MINUTE, StartTime, EndTime) FROM TimeAlive WHERE PlayerId = (SELECT PlayerID FROM PlayerList WHERE Name = '{name}')", con);
+            using SqlDataReader reader = command.ExecuteReader();
+
+            string result = "";
+            while (reader.Read())
+            {
+                result = reader.GetInt32(0).ToString();
+            }
+            if (result == "")
+                return "No Time Alive Data For This Person!";
+            else
+                return result + " minutes";
         }
         catch (SqlException exception)
         {
@@ -220,6 +256,49 @@ public class Database
     /// </summary>
     /// <returns></returns>
     public string GetFancy()
+    {
+        Console.WriteLine("Getting Connection ...");
+
+        try
+        {
+            //create instance of database connection
+            using SqlConnection con = new(connectionString);
+
+            //
+            // Open the SqlConnection.
+            //
+            con.Open();
+
+
+            // Get the list of players
+            using SqlCommand command = new SqlCommand("SELECT PlayerList.Name FROM PlayerList", con);
+            using SqlDataReader reader = command.ExecuteReader();
+
+            string result = "<ol>";
+
+            while (reader.Read())
+            {
+                result += $@"<li>
+                             {reader.GetString(0)}, 
+                             </li>";
+            }
+
+            result += "</ol>";
+            return result;
+        }
+        catch (SqlException exception)
+        {
+            Console.WriteLine($"Error in SQL connection: {exception.Message}");
+            return "";
+        }
+    }
+
+    /// <summary>
+    ///    (1) Instruct the DB to seed itself (build tables, add data)
+    ///    (2) Report to the web browser on the success
+    /// </summary>
+    /// <returns> the HTTP response header followed by some informative information</returns>
+    public string CreateDBTablesPage(string name)
     {
         Console.WriteLine("Getting Connection ...");
 
