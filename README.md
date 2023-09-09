@@ -16,7 +16,7 @@ Copyright:   CS 3500 and Alex Qi and Matthew Goh - This work may not be copied f
 # Database Table Summary:
 
 The tables that we have created are the player's names, time alive, high score,  
-They are related by each player individually having a name, time alive, score, 
+They are related by each player individually having a name, time alive, and score. 
 
 # Extent of work:
 
@@ -37,7 +37,7 @@ Two branches were created besides the main branch, and that was for parallel wor
 
 # Testing: 
 
-We tested our code by comparing our product to the "correct" examples in the assignment page. Whatever we felt like we could improve on such as color choice or text we modified. We did not use any unit tests, but instead debugged our code whenever it broke or asked a friend for advice.
+We tested our code by repeatedly running the web server and superficially testing by clicking the links and ensuring that it takes us to the intended screen. 
 
 # Time Expenditures:
 
